@@ -5,26 +5,27 @@
 using RecipeManagementApp;
 using System.Diagnostics.Metrics;
 
-Console.WriteLine("RECIPE MANAGEMENT!\n\n");
+Console.WriteLine("------------------------------\nRECIPE MANAGEMENT!\n------------------------------");
 
 try
 {
     //Declarations & intialising
-    int numOfIngredients = 0;
+    int numOfIngredients = 0, numSteps = 0;
 
     //Calling method to promt user to enter number of ingredients    
-    numOfIngredients = GetNumberOfItems("Enter the Number Ingredients: ");
+    numOfIngredients = GetNumberOfItems("Ingredients: ");
 
     //Calling method to promt user to enter details of each the ingredient
     Ingredients[] ingredients = GetIngredients(numOfIngredients);
 
-    //temp print
-    //Console.WriteLine("Ingredients:");
-    //for (int i = 0; i < ingredients.Length; i++)
-    //{
-    //    Console.WriteLine($"{ingredients[i].Quantity} {ingredients[i].Unit} of {ingredients[i].Name}");
-    //}
+    //Calling method to promt user to enter number of Steps
+    numSteps = GetNumberOfItems("Steps: ");
 
+    //Calling method to promt user to enter steps for the Recipe
+    RecipeSteps[] steps = GetSteps(numSteps);    
+
+    //Calling method to display full Recipe
+    DisplayRecipe(ingredients, steps);
 }
 catch (Exception ex)
 {
@@ -38,7 +39,7 @@ static int GetNumberOfItems(string itemType)
     int numItems;
     do
     {
-        Console.Write($"{itemType}: ");
+        Console.Write($"\nEnter the Number {itemType}: ");
         if (!int.TryParse(Console.ReadLine(), out numItems) || numItems <= 0)
         {
             Console.WriteLine("Invalid input. Please enter a valid positive number.");
@@ -77,3 +78,38 @@ static Ingredients[] GetIngredients(int numIngredients)
     return ingredients;
 }
 
+//This method gets the details of the steps(description) for the Recipe
+//Prompting user to enter the steps(description),
+//iterating based on the value entered by user
+static RecipeSteps[] GetSteps(int numSteps)
+{
+    RecipeSteps[] steps = new RecipeSteps[numSteps];
+    for (int i = 0; i < numSteps; i++)
+    {
+        Console.WriteLine($"\nStep #{i + 1}:");
+        string description = Console.ReadLine();
+        steps[i] = new RecipeSteps { StepsDescription = description };
+    }
+    return steps;
+}
+
+//This method displays the full Recipe(Ingredients & Steps) to the User
+static void DisplayRecipe(Ingredients[] ingredients, RecipeSteps[] steps)
+{
+    Console.WriteLine("\n------------------------------\nRECIPE\n------------------------------");
+
+    //Display Ingredients
+    Console.WriteLine("Ingredients:");    
+    for (int i = 0; i < ingredients.Length; i++)
+    {
+        var ingredient = ingredients[i];
+        Console.WriteLine($"- {ingredient.Quantity} {ingredient.Unit} of {ingredient.Name}");
+    }
+
+    //Display steps
+    Console.WriteLine("\nSteps:");
+    for (int i = 0; i < steps.Length; i++)
+    {
+        Console.WriteLine($"{i + 1}. {steps[i].StepsDescription}");
+    }
+}
