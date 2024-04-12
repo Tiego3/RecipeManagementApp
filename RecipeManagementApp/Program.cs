@@ -4,6 +4,7 @@
 
 using RecipeManagementApp;
 using System.Diagnostics.Metrics;
+using System.Net.Quic;
 using System.Numerics;
 
 Console.WriteLine("------------------------------\nRECIPE MANAGEMENT!\n------------------------------");
@@ -12,7 +13,8 @@ try
 {
     bool exit = false;
     Recipe recipe = null;
-
+    Ingredients ingredients = null;
+    // original quantity value
     while (!exit)
     {
         Console.ForegroundColor = ConsoleColor.White;
@@ -20,7 +22,8 @@ try
             "\n1. Add a recipe" +
             "\n2. Display recipe" +
             "\n3. Change scale" +
-            "\n4. Exit");
+            "\n4. Reset to Origial Value" +
+            "\n5. Exit");
 
         Console.Write("\nEnter your choice: ");
         int choice = int.Parse(Console.ReadLine());
@@ -43,6 +46,12 @@ try
                     Console.WriteLine("No recipe added yet.");
                 break;
             case 4:
+                if (recipe != null)
+                    ResetToOriginalValues(recipe);
+                else
+                    Console.WriteLine("No recipe added yet.");
+                break;
+            case 5:
                 exit = true;
                 break;
             default:
@@ -58,27 +67,32 @@ catch (Exception ex)
 
 static Recipe AddRecipe()
 {
-    //Declarations & intialising
+    //Declarations & initializing
     int numOfIngredients = 0, numSteps = 0;
-        
-    //Calling method to promt user to enter number of ingredients    
+
+    //Calling method to prompt user to enter number of ingredients    
     numOfIngredients = GetNumberOfItems("Ingredients ");
 
-    //Calling method to promt user to enter details of each the ingredient
+    //Calling method to prompt user to enter details of each ingredient
     Ingredients[] ingredients = GetIngredients(numOfIngredients);
 
-    //Calling method to promt user to enter number of Steps
+    //Calling method to prompt user to enter number of Steps
     numSteps = GetNumberOfItems("Steps ");
 
-    //Calling method to promt user to enter steps for the Recipe
+    //Calling method to prompt user to enter steps for the Recipe
     RecipeSteps[] steps = GetSteps(numSteps);
 
-    return new Recipe { Ingredients = ingredients, Steps = steps };
+    // Create the recipe
+    var recipe = new Recipe { Ingredients = ingredients, Steps = steps };
 
-    //Calling method to display full Recipe
-    //DisplayRecipe(ingredients, steps);
+    recipe.OriginalQuantities = new double[numOfIngredients];
+    // Store original quantities
+    for (int i = 0; i < ingredients.Length; i++)
+    {
+        recipe.OriginalQuantities[i] = ingredients[i].Quantity;
+    }
 
-    //ChangeScale(ingredients, steps);
+    return recipe;
 }
 
 //This method gets the number of items (ingredients or steps) from the user
@@ -100,9 +114,13 @@ static int GetNumberOfItems(string itemType)
 //This method gets the details of each the ingredient from user (Name of ingredient, quantity and the unit)
 //Prompting user to enter details for each ingredient,
 //iterating based on the value entered by user
+
 static Ingredients[] GetIngredients(int numIngredients)
 {
     Ingredients[] ingredients = new Ingredients[numIngredients];
+    
+    Ingredients ing = new Ingredients();
+    ing.tempQty = new double[numIngredients];
     for (int i = 0; i < numIngredients; i++)
     {        
         Console.WriteLine($"\nEnter details  (Name, Quantity, Unit) for Ingredient #{i + 1}:");
@@ -110,7 +128,8 @@ static Ingredients[] GetIngredients(int numIngredients)
         string name = Console.ReadLine();
 
         double quantity;
-        quantity = GetValueDouble("Quantity: ");       
+        quantity = GetValueDouble("Quantity: ");
+        ing.tempQty[i] = quantity;
 
         Console.Write("Unit: ");
         string unit = Console.ReadLine();
@@ -180,10 +199,21 @@ static void ChangeScale(Recipe recipe)
     scaleFactor = GetValueDouble("Scale: ");
     for (int i = 0; i < recipe.Ingredients.Length; i++)
     {
+        
         recipe.Ingredients[i].Quantity *= scaleFactor;
     }
     Console.WriteLine("\nQuantities adjusted successfully.");
 }
+
+static void ResetToOriginalValues(Recipe recipe)
+{
+    for (int i = 0; i < recipe.Ingredients.Length; i++)
+    {
+        recipe.Ingredients[i].Quantity = recipe.OriginalQuantities[i];
+    }
+    Console.WriteLine("\nQuantities reset to original values successfully.");
+}
+
 
 
 

@@ -10,5 +10,13 @@ namespace RecipeManagementApp
     {
         public Ingredients[] Ingredients { get; set; }
         public RecipeSteps[] Steps { get; set; }
+        public double[] OriginalQuantities { get; set; }
+
+        //public Recipe()
+        //{
+        //    OriginalQuantities = new double[Ingredients.Length];
+        //}
     }
+
+   
 }
