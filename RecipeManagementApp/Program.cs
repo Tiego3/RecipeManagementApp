@@ -10,10 +10,57 @@ Console.WriteLine("------------------------------\nRECIPE MANAGEMENT!\n---------
 
 try
 {
+    bool exit = false;
+    Recipe recipe = null;
+
+    while (!exit)
+    {
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.WriteLine("\nChoose an option:" +
+            "\n1. Add a recipe" +
+            "\n2. Display recipe" +
+            "\n3. Change scale" +
+            "\n4. Exit");
+
+        Console.Write("\nEnter your choice: ");
+        int choice = int.Parse(Console.ReadLine());
+
+        switch (choice)
+        {
+            case 1:
+                recipe = AddRecipe();
+                break;
+            case 2:
+                if (recipe != null)
+                    DisplayRecipe(recipe);
+                else
+                    Console.WriteLine("No recipe added yet.");
+                break;
+            case 3:
+                if (recipe != null)
+                    ChangeScale(recipe);
+                else
+                    Console.WriteLine("No recipe added yet.");
+                break;
+            case 4:
+                exit = true;
+                break;
+            default:
+                Console.WriteLine("Invalid choice. Please choose again.");
+                break;
+        }
+    }
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+}
+
+static Recipe AddRecipe()
+{
     //Declarations & intialising
     int numOfIngredients = 0, numSteps = 0;
-    double scaleFactor=0;
-
+        
     //Calling method to promt user to enter number of ingredients    
     numOfIngredients = GetNumberOfItems("Ingredients ");
 
@@ -24,18 +71,14 @@ try
     numSteps = GetNumberOfItems("Steps ");
 
     //Calling method to promt user to enter steps for the Recipe
-    RecipeSteps[] steps = GetSteps(numSteps);    
+    RecipeSteps[] steps = GetSteps(numSteps);
+
+    return new Recipe { Ingredients = ingredients, Steps = steps };
 
     //Calling method to display full Recipe
-    DisplayRecipe(ingredients, steps);
+    //DisplayRecipe(ingredients, steps);
 
-    ChangeScale(ingredients, scaleFactor, steps);
-
-
-}
-catch (Exception ex)
-{
-    Console.WriteLine($"An unexpected error occurred: {ex.Message}");
+    //ChangeScale(ingredients, steps);
 }
 
 //This method gets the number of items (ingredients or steps) from the user
@@ -93,24 +136,24 @@ static RecipeSteps[] GetSteps(int numSteps)
 }
 
 //This method displays the full Recipe(Ingredients & Steps) to the User
-static void DisplayRecipe(Ingredients[] ingredients, RecipeSteps[] steps)
+static void DisplayRecipe(Recipe recipe)
 {
     Console.ForegroundColor = ConsoleColor.Magenta;
     Console.WriteLine("\n------------------------------\nRECIPE\n------------------------------");
 
     //Display Ingredients
     Console.WriteLine("Ingredients:");    
-    for (int i = 0; i < ingredients.Length; i++)
+    for (int i = 0; i < recipe.Ingredients.Length; i++)
     {
-        var ingredient = ingredients[i];
+        var ingredient = recipe.Ingredients[i];
         Console.WriteLine($"- {ingredient.Quantity} {ingredient.Unit} of {ingredient.Name}");
     }
 
     //Display steps
     Console.WriteLine("\nSteps:");
-    for (int i = 0; i < steps.Length; i++)
+    for (int i = 0; i < recipe.Steps.Length; i++)
     {
-        Console.WriteLine($"{i + 1}. {steps[i].StepsDescription}");
+        Console.WriteLine($"{i + 1}. {recipe.Steps[i].StepsDescription}");
     }
 }
 
@@ -131,15 +174,14 @@ static double GetValueDouble(string itemType)
 }
 
 //This method changes the Scale Factor for the quantity of ingredients
-static void ChangeScale(Ingredients[] ingredients, double scalingFactor, RecipeSteps[] steps)
+static void ChangeScale(Recipe recipe)
 {
     double scaleFactor;
     scaleFactor = GetValueDouble("Scale: ");
-    for (int i = 0; i < ingredients.Length; i++)
+    for (int i = 0; i < recipe.Ingredients.Length; i++)
     {
-        ingredients[i].Quantity *= scaleFactor;
+        recipe.Ingredients[i].Quantity *= scaleFactor;
     }
-    DisplayRecipe(ingredients,steps);
     Console.WriteLine("\nQuantities adjusted successfully.");
 }
 
