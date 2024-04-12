@@ -4,6 +4,7 @@
 
 using RecipeManagementApp;
 using System.Diagnostics.Metrics;
+using System.Numerics;
 
 Console.WriteLine("------------------------------\nRECIPE MANAGEMENT!\n------------------------------");
 
@@ -11,21 +12,26 @@ try
 {
     //Declarations & intialising
     int numOfIngredients = 0, numSteps = 0;
+    double scaleFactor=0;
 
     //Calling method to promt user to enter number of ingredients    
-    numOfIngredients = GetNumberOfItems("Ingredients: ");
+    numOfIngredients = GetNumberOfItems("Ingredients ");
 
     //Calling method to promt user to enter details of each the ingredient
     Ingredients[] ingredients = GetIngredients(numOfIngredients);
 
     //Calling method to promt user to enter number of Steps
-    numSteps = GetNumberOfItems("Steps: ");
+    numSteps = GetNumberOfItems("Steps ");
 
     //Calling method to promt user to enter steps for the Recipe
     RecipeSteps[] steps = GetSteps(numSteps);    
 
     //Calling method to display full Recipe
     DisplayRecipe(ingredients, steps);
+
+    ChangeScale(ingredients, scaleFactor, steps);
+
+
 }
 catch (Exception ex)
 {
@@ -39,7 +45,7 @@ static int GetNumberOfItems(string itemType)
     int numItems;
     do
     {
-        Console.Write($"\nEnter the Number {itemType}: ");
+        Console.Write($"\nEnter the Number of {itemType}: ");
         if (!int.TryParse(Console.ReadLine(), out numItems) || numItems <= 0)
         {
             Console.WriteLine("Invalid input. Please enter a valid positive number.");
@@ -61,14 +67,7 @@ static Ingredients[] GetIngredients(int numIngredients)
         string name = Console.ReadLine();
 
         double quantity;
-        do
-        {
-            Console.Write("Quantity: ");
-            if (!double.TryParse(Console.ReadLine(), out quantity) || quantity <= 0)
-            {
-                Console.WriteLine("Invalid input. Please enter a valid positive number.");
-            }
-        } while (quantity<=0);
+        quantity = GetValueDouble("Quantity: ");       
 
         Console.Write("Unit: ");
         string unit = Console.ReadLine();
@@ -96,6 +95,7 @@ static RecipeSteps[] GetSteps(int numSteps)
 //This method displays the full Recipe(Ingredients & Steps) to the User
 static void DisplayRecipe(Ingredients[] ingredients, RecipeSteps[] steps)
 {
+    Console.ForegroundColor = ConsoleColor.Magenta;
     Console.WriteLine("\n------------------------------\nRECIPE\n------------------------------");
 
     //Display Ingredients
@@ -113,3 +113,36 @@ static void DisplayRecipe(Ingredients[] ingredients, RecipeSteps[] steps)
         Console.WriteLine($"{i + 1}. {steps[i].StepsDescription}");
     }
 }
+
+//This method gets the value (quantity or scale) from the user
+//and checks if the value is valid (value is not text and not a negetive value)
+static double GetValueDouble(string itemType)
+{
+    double value;
+    do
+    {
+        Console.Write(itemType);
+        if (!double.TryParse(Console.ReadLine(), out value) || value <= 0)
+        {
+            Console.WriteLine("Invalid input. Please enter a valid positive number.");
+        }
+    } while (value <= 0);
+    return value;
+}
+
+//This method changes the Scale Factor for the quantity of ingredients
+static void ChangeScale(Ingredients[] ingredients, double scalingFactor, RecipeSteps[] steps)
+{
+    double scaleFactor;
+    scaleFactor = GetValueDouble("Scale: ");
+    for (int i = 0; i < ingredients.Length; i++)
+    {
+        ingredients[i].Quantity *= scaleFactor;
+    }
+    DisplayRecipe(ingredients,steps);
+    Console.WriteLine("\nQuantities adjusted successfully.");
+}
+
+
+
+
