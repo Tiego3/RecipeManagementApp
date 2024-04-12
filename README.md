@@ -23,3 +23,6 @@ Build and run the application.
   Scale value.
 4. Reset to the original values.
 5. Clear data.
+
+# Github Link
+https://github.com/Tiego3/RecipeManagementApp
