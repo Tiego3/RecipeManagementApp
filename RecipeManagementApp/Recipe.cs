@@ -5,6 +5,7 @@ namespace RecipeManagementApp
 {
     internal class Recipe
     {
+        public string Name { get; set; }
         public Ingredients[] Ingredients { get; set; }
         public RecipeSteps[] Steps { get; set; }
         public double[] OriginalQuantities { get; set; }
@@ -12,13 +13,21 @@ namespace RecipeManagementApp
         //Method to add full recipe
         public static Recipe AddNewRecipe()
         {
+            Console.Write("Enter the name of the recipe: ");
+            string recipeName = Console.ReadLine();
+
             int numOfIngredients = GetNumberOfItems("Ingredients ");
             Ingredients[] ingredients = GetIngredients(numOfIngredients);
 
             int numSteps = GetNumberOfItems("Steps ");
             RecipeSteps[] steps = GetSteps(numSteps);
 
-            var recipe = new Recipe { Ingredients = ingredients, Steps = steps };
+            var recipe = new Recipe 
+            { 
+                Name = recipeName,
+                Ingredients = ingredients, 
+                Steps = steps 
+            };
             recipe.OriginalQuantities = new double[numOfIngredients];
 
             // Store original quantities
@@ -128,10 +137,11 @@ namespace RecipeManagementApp
 
 
         //This method displays the full Recipe(Ingredients & Steps) to the User
-        public static void DisplayRecipe(Recipe recipe)
+        // Method to display the full Recipe (Ingredients & Steps) to the User
+        public static void DisplayRecipe(string recipeName, Recipe recipe)
         {
             Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.WriteLine("\n------------------------------\nRECIPE\n------------------------------");
+            Console.WriteLine($"\n------------------------------\nRECIPE: {recipeName}\n------------------------------");
 
             // Display Ingredients
             Console.WriteLine("Ingredients:");
@@ -148,6 +158,7 @@ namespace RecipeManagementApp
                 Console.WriteLine($"{i + 1}. {recipe.Steps[i].StepsDescription}");
             }
         }
+
 
     }
 }

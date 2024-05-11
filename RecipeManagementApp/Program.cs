@@ -36,7 +36,7 @@ try
                     Console.WriteLine("Select a recipe to display:");
                     for (int i = 0; i < recipes.Count; i++)
                     {
-                        Console.WriteLine($"{i + 1}. Recipe {i + 1}");
+                        Console.WriteLine($"{i + 1}. {recipes[i].Name}");
                     }
                     int recipeIndex;
                     do
@@ -46,7 +46,7 @@ try
                             Console.WriteLine("Invalid input. Please enter a valid recipe number.");
                         }
                     } while (recipeIndex < 1 || recipeIndex > recipes.Count);
-                    Recipe.DisplayRecipe(recipes[recipeIndex - 1]);
+                    Recipe.DisplayRecipe(recipes[recipeIndex - 1].Name, recipes[recipeIndex - 1]);
                 }
                 else
                 {
@@ -59,7 +59,7 @@ try
                     Console.WriteLine("Select a recipe to change scale:");
                     for (int i = 0; i < recipes.Count; i++)
                     {
-                        Console.WriteLine($"{i + 1}. Recipe {i + 1}");
+                        Console.WriteLine($"{i + 1}. {recipes[i].Name}");
                     }
                     int recipeIndex;
                     do
@@ -82,7 +82,7 @@ try
                     Console.WriteLine("Select a recipe to reset to original values:");
                     for (int i = 0; i < recipes.Count; i++)
                     {
-                        Console.WriteLine($"{i + 1}. Recipe {i + 1}");
+                        Console.WriteLine($"{i + 1}. {recipes[i].Name}");
                     }
                     int recipeIndex;
                     do
@@ -99,6 +99,7 @@ try
                     Console.WriteLine("No recipes added yet.");
                 }
                 break;
+
             case 5:
                 exit = true;
                 break;
