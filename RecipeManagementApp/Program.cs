@@ -34,19 +34,20 @@ try
                 if (recipes.Count > 0)
                 {
                     Console.WriteLine("Select a recipe to display:");
-                    for (int i = 0; i < recipes.Count; i++)
+                    var sortedRecipes = recipes.OrderBy(r => r.Name).ToList();
+                    for (int i = 0; i < sortedRecipes.Count; i++)
                     {
-                        Console.WriteLine($"{i + 1}. {recipes[i].Name}");
+                        Console.WriteLine($"{i + 1}. {sortedRecipes[i].Name}");
                     }
                     int recipeIndex;
                     do
                     {
-                        if (!int.TryParse(Console.ReadLine(), out recipeIndex) || recipeIndex < 1 || recipeIndex > recipes.Count)
+                        if (!int.TryParse(Console.ReadLine(), out recipeIndex) || recipeIndex < 1 || recipeIndex > sortedRecipes.Count)
                         {
                             Console.WriteLine("Invalid input. Please enter a valid recipe number.");
                         }
-                    } while (recipeIndex < 1 || recipeIndex > recipes.Count);
-                    Recipe.DisplayRecipe(recipes[recipeIndex - 1].Name, recipes[recipeIndex - 1]);
+                    } while (recipeIndex < 1 || recipeIndex > sortedRecipes.Count);
+                    Recipe.DisplayRecipe(sortedRecipes[recipeIndex - 1].Name, sortedRecipes[recipeIndex - 1]);
                 }
                 else
                 {
@@ -57,19 +58,20 @@ try
                 if (recipes.Count > 0)
                 {
                     Console.WriteLine("Select a recipe to change scale:");
-                    for (int i = 0; i < recipes.Count; i++)
+                    var sortedRecipes = recipes.OrderBy(r => r.Name).ToList();
+                    for (int i = 0; i < sortedRecipes.Count; i++)
                     {
-                        Console.WriteLine($"{i + 1}. {recipes[i].Name}");
+                        Console.WriteLine($"{i + 1}. {sortedRecipes[i].Name}");
                     }
                     int recipeIndex;
                     do
                     {
-                        if (!int.TryParse(Console.ReadLine(), out recipeIndex) || recipeIndex < 1 || recipeIndex > recipes.Count)
+                        if (!int.TryParse(Console.ReadLine(), out recipeIndex) || recipeIndex < 1 || recipeIndex > sortedRecipes.Count)
                         {
                             Console.WriteLine("Invalid input. Please enter a valid recipe number.");
                         }
-                    } while (recipeIndex < 1 || recipeIndex > recipes.Count);
-                    Recipe.ChangeScale(recipes[recipeIndex - 1]);
+                    } while (recipeIndex < 1 || recipeIndex > sortedRecipes.Count);
+                    Recipe.ChangeScale(sortedRecipes[recipeIndex - 1]);
                 }
                 else
                 {
@@ -80,19 +82,20 @@ try
                 if (recipes.Count > 0)
                 {
                     Console.WriteLine("Select a recipe to reset to original values:");
-                    for (int i = 0; i < recipes.Count; i++)
+                    var sortedRecipes = recipes.OrderBy(r => r.Name).ToList();
+                    for (int i = 0; i < sortedRecipes.Count; i++)
                     {
-                        Console.WriteLine($"{i + 1}. {recipes[i].Name}");
+                        Console.WriteLine($"{i + 1}. {sortedRecipes[i].Name}");
                     }
                     int recipeIndex;
                     do
                     {
-                        if (!int.TryParse(Console.ReadLine(), out recipeIndex) || recipeIndex < 1 || recipeIndex > recipes.Count)
+                        if (!int.TryParse(Console.ReadLine(), out recipeIndex) || recipeIndex < 1 || recipeIndex > sortedRecipes.Count)
                         {
                             Console.WriteLine("Invalid input. Please enter a valid recipe number.");
                         }
-                    } while (recipeIndex < 1 || recipeIndex > recipes.Count);
-                    recipes[recipeIndex - 1].ResetToOriginalValues();
+                    } while (recipeIndex < 1 || recipeIndex > sortedRecipes.Count);
+                    sortedRecipes[recipeIndex - 1].ResetToOriginalValues();
                 }
                 else
                 {
@@ -117,7 +120,7 @@ catch (Exception ex)
 }
         
 
-        // Method for Display Menu
+// Method for Display Menu
 static void DisplayMenu()
 {
     Console.ForegroundColor = ConsoleColor.White;
