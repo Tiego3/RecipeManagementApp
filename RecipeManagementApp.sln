@@ -5,8 +5,7 @@ VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RecipeManagementApp", "RecipeManagementApp\RecipeManagementApp.csproj", "{17332384-AC94-4EC5-85DF-F39217FF1206}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "POE_Part1", "..\prog6221-part-1-ST10141612-Part_1\prog6221-part-1-ST10141612-Part_1\POE_Part1.csproj", "{3D7451E0-DCA9-4EB3-84DB-779EC0D4EAB0}"
-EndProject
+
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

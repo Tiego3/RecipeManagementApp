@@ -4,69 +4,100 @@
 
 using RecipeManagementApp;
 
+List<Recipe> recipes = new List<Recipe>();
 Console.WriteLine("------------------------------\nRECIPE MANAGEMENT!\n------------------------------");
 
 try
 {
     bool exit = false;
-    Recipe recipe = null;
 
     while (!exit)
     {
-        //Call Display Menu
+        // Call Display Menu
         DisplayMenu();
 
         int choice;
         do
-        {            
+        {
             if (!int.TryParse(Console.ReadLine(), out choice) || choice <= 0)
             {
                 Console.WriteLine("Invalid input. Please enter a valid positive number: ");
             }
         } while (choice <= 0);
-        
 
         switch (choice)
         {
             case 1:
-                if (recipe != null)
-                {
-                    Console.WriteLine("Are you sure you want to clear previous recipe and enter new one," +
-                        "\n(enter 'y' for Yes  and 'n' for No:)");
-                    string ans = Console.ReadLine();
-                    if (ans.Equals("y", StringComparison.CurrentCultureIgnoreCase))
-                    {
-                        recipe = Recipe.AddNewRecipe();
-                        break;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
-                recipe = Recipe.AddNewRecipe();
+                recipes.Add(Recipe.AddNewRecipe());
                 break;
             case 2:
-                if (recipe != null)
-                    // Call DisplayRecipe method
-                    Recipe.DisplayRecipe(recipe); 
-                else
-                    Console.WriteLine("No recipe added yet.");
-                break;
-            case 3:
-                if (recipe != null)
-                {                   
-                    Recipe.ChangeScale(recipe); 
+                if (recipes.Count > 0)
+                {
+                    Console.WriteLine("Select a recipe to display:");
+                    for (int i = 0; i < recipes.Count; i++)
+                    {
+                        Console.WriteLine($"{i + 1}. Recipe {i + 1}");
+                    }
+                    int recipeIndex;
+                    do
+                    {
+                        if (!int.TryParse(Console.ReadLine(), out recipeIndex) || recipeIndex < 1 || recipeIndex > recipes.Count)
+                        {
+                            Console.WriteLine("Invalid input. Please enter a valid recipe number.");
+                        }
+                    } while (recipeIndex < 1 || recipeIndex > recipes.Count);
+                    Recipe.DisplayRecipe(recipes[recipeIndex - 1]);
                 }
                 else
-                    Console.WriteLine("No recipe added yet.");
+                {
+                    Console.WriteLine("No recipes added yet.");
+                }
+                break;
+            case 3:
+                if (recipes.Count > 0)
+                {
+                    Console.WriteLine("Select a recipe to change scale:");
+                    for (int i = 0; i < recipes.Count; i++)
+                    {
+                        Console.WriteLine($"{i + 1}. Recipe {i + 1}");
+                    }
+                    int recipeIndex;
+                    do
+                    {
+                        if (!int.TryParse(Console.ReadLine(), out recipeIndex) || recipeIndex < 1 || recipeIndex > recipes.Count)
+                        {
+                            Console.WriteLine("Invalid input. Please enter a valid recipe number.");
+                        }
+                    } while (recipeIndex < 1 || recipeIndex > recipes.Count);
+                    Recipe.ChangeScale(recipes[recipeIndex - 1]);
+                }
+                else
+                {
+                    Console.WriteLine("No recipes added yet.");
+                }
                 break;
             case 4:
-                // Call ResetToOriginalValues method
-                if (recipe != null)
-                    recipe.ResetToOriginalValues();  
+                if (recipes.Count > 0)
+                {
+                    Console.WriteLine("Select a recipe to reset to original values:");
+                    for (int i = 0; i < recipes.Count; i++)
+                    {
+                        Console.WriteLine($"{i + 1}. Recipe {i + 1}");
+                    }
+                    int recipeIndex;
+                    do
+                    {
+                        if (!int.TryParse(Console.ReadLine(), out recipeIndex) || recipeIndex < 1 || recipeIndex > recipes.Count)
+                        {
+                            Console.WriteLine("Invalid input. Please enter a valid recipe number.");
+                        }
+                    } while (recipeIndex < 1 || recipeIndex > recipes.Count);
+                    recipes[recipeIndex - 1].ResetToOriginalValues();
+                }
                 else
-                    Console.WriteLine("No recipe added yet.");
+                {
+                    Console.WriteLine("No recipes added yet.");
+                }
                 break;
             case 5:
                 exit = true;
@@ -83,8 +114,9 @@ catch (Exception ex)
 {
     Console.WriteLine($"An unexpected error occurred: {ex.Message}");
 }
-   
-//Method for Display Menu
+        
+
+        // Method for Display Menu
 static void DisplayMenu()
 {
     Console.ForegroundColor = ConsoleColor.White;
@@ -97,6 +129,4 @@ static void DisplayMenu()
 
     Console.Write("\nEnter your choice: ");
 }
-
-
 
