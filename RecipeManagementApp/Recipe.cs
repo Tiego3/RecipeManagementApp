@@ -1,5 +1,6 @@
 ﻿using RecipeManagementApp;
 using System;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace RecipeManagementApp
 {
@@ -8,8 +9,8 @@ namespace RecipeManagementApp
         public string Name { get; set; }
         public List<Ingredients> Ingredients { get; set; }
         public RecipeSteps[] Steps { get; set; }
-        public double[] OriginalQuantities { get; set; }
-        public double[] OriginalCalories { get; set; }
+        public List<double> OriginalQuantities { get; set; }
+        public List<double> OriginalCalories { get; set; }
         //Method to add full recipe
         public static Recipe AddNewRecipe()
         {
@@ -29,16 +30,18 @@ namespace RecipeManagementApp
             var recipe = new Recipe 
             { 
                 Name = recipeName,
-                Ingredients = ingredients, 
+                Ingredients = ingredients,
                 Steps = steps 
             };
-            recipe.OriginalQuantities = new double[numOfIngredients];
-            recipe.OriginalCalories = new double[numOfIngredients];
+
             // Store original quantities & calories
-            for (int i = 0; i < ingredients.Count; i++)
+            recipe.OriginalQuantities = new List<double>();
+            recipe.OriginalCalories = new List<double>();
+            
+            foreach (var ingredient in ingredients)
             {
-                recipe.OriginalQuantities[i] = ingredients[i].Quantity;
-                recipe.OriginalCalories[i] = ingredients[i].Calories;
+                recipe.OriginalQuantities.Add(ingredient.Quantity);
+                recipe.OriginalCalories.Add(ingredient.Calories);
             }
 
             return recipe;
@@ -130,8 +133,8 @@ namespace RecipeManagementApp
             for (int i = 0; i < recipe.Ingredients.Count; i++)
             {
 
-                recipe.OriginalQuantities = new double[recipe.Ingredients.Count];
-                recipe.OriginalCalories = new double[recipe.Ingredients.Count];
+                recipe.Ingredients[i].Quantity *= scaleFactor;
+                recipe.Ingredients[i].Calories *= scaleFactor;
 
             }
             Console.WriteLine("\nQuantities adjusted successfully.");
@@ -161,7 +164,7 @@ namespace RecipeManagementApp
             for (int i = 0; i < recipe.Ingredients.Count; i++)
             {
                 var ingredient = recipe.Ingredients[i];
-                Console.WriteLine($"- {ingredient.Quantity} {ingredient.Unit} of {ingredient.Name} - {ingredient.Calories} Kcal & {ingredient.FoodGroup} Food Group");
+                Console.WriteLine($"- {ingredient.Quantity} {ingredient.Unit} of {ingredient.Name} - {ingredient.Calories} Kcal & of {ingredient.FoodGroup} food group");
             }
 
             CheckIfKcalExceeds(recipe.Ingredients, 300);
