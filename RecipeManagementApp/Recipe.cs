@@ -8,7 +8,7 @@ namespace RecipeManagementApp
     {
         public string Name { get; set; }
         public List<Ingredients> Ingredients { get; set; }
-        public RecipeSteps[] Steps { get; set; }
+        public List<RecipeSteps> Steps { get; set; }
         public List<double> OriginalQuantities { get; set; }
         public List<double> OriginalCalories { get; set; }
         //Method to add full recipe
@@ -25,7 +25,7 @@ namespace RecipeManagementApp
             CheckIfKcalExceeds(ingredients,300);
 
             int numSteps = GetIntValue("Enter the Number of Steps: ");
-            RecipeSteps[] steps = GetSteps(numSteps);
+            List<RecipeSteps> steps = GetSteps(numSteps);
 
             var recipe = new Recipe 
             { 
@@ -97,14 +97,14 @@ namespace RecipeManagementApp
         //This method gets the details of the steps(description) for the Recipe
         //Prompting user to enter the steps(description),
         //iterating based on the value entered by user
-        public static RecipeSteps[] GetSteps(int numSteps)
+        public static List<RecipeSteps> GetSteps(int numSteps)
         {
-            RecipeSteps[] steps = new RecipeSteps[numSteps];
+            List<RecipeSteps> steps = new List<RecipeSteps>();
             for (int i = 0; i < numSteps; i++)
             {
                 Console.WriteLine($"\nStep #{i + 1}:");
-                string description = Console.ReadLine();
-                steps[i] = new RecipeSteps { StepsDescription = description };
+                string description = Console.ReadLine();                
+                steps.Add(new RecipeSteps { StepsDescription = description });
             }
             return steps;
         }
@@ -171,7 +171,7 @@ namespace RecipeManagementApp
 
             // Display steps
             Console.WriteLine("\nSteps:");
-            for (int i = 0; i < recipe.Steps.Length; i++)
+            for (int i = 0; i < recipe.Steps.Count; i++)
             {
                 Console.WriteLine($"{i + 1}. {recipe.Steps[i].StepsDescription}");
             }
