@@ -16,10 +16,10 @@ namespace RecipeManagementApp
             Console.Write("Enter the name of the recipe: ");
             string recipeName = Console.ReadLine();
 
-            int numOfIngredients = GetNumberOfItems("Ingredients ");
+            int numOfIngredients = GetIntValue("Enter the Number of Ingredients: ");
             Ingredients[] ingredients = GetIngredients(numOfIngredients);
 
-            int numSteps = GetNumberOfItems("Steps ");
+            int numSteps = GetIntValue("Enter the Number of Steps: ");
             RecipeSteps[] steps = GetSteps(numSteps);
 
             var recipe = new Recipe 
@@ -39,14 +39,14 @@ namespace RecipeManagementApp
             return recipe;
         }
 
-        //This method gets the number of items (ingredients or steps) from the user
-        //and checks if the value is valid (value is not text and not a negetive value)
-        public static int GetNumberOfItems(string itemType)
+        //This method gets the value(whole numbers) of items (ingredients or steps or calories) from the user
+        //and checks if the value is valid (value is not text and not a negetive value)        
+        public static int GetIntValue(string itemType)
         {
             int numItems;
             do
             {
-                Console.Write($"\nEnter the Number of {itemType}: ");
+                Console.Write($"\n{itemType}");
                 if (!int.TryParse(Console.ReadLine(), out numItems) || numItems <= 0)
                 {
                     Console.WriteLine("Invalid input. Please enter a valid positive number.");
@@ -74,7 +74,13 @@ namespace RecipeManagementApp
                 Console.Write("Unit: ");
                 string unit = Console.ReadLine();
 
-                ingredients[i] = new Ingredients { Name = name, Quantity = quantity, Unit = unit };
+                int calories;
+                calories = GetIntValue("Calories: ");
+
+                Console.Write("Enter the Food Group: ");
+                string foodGroup = Console.ReadLine();
+
+                ingredients[i] = new Ingredients { Name = name, Quantity = quantity, Unit = unit, Calories = calories, FoodGroup = foodGroup };
             }
             return ingredients;
         }
@@ -94,7 +100,7 @@ namespace RecipeManagementApp
             return steps;
         }
 
-        //This method gets the value (quantity or scale) from the user
+        //This method gets the value(with decimal) (quantity or scale) from the user
         //and checks if the value is valid (value is not text and not a negetive value)
         public static double GetValueDouble(string itemType)
         {
@@ -108,7 +114,7 @@ namespace RecipeManagementApp
                 }
             } while (value <= 0);
             return value;
-        }
+        }        
 
         //This method changes the Scale Factor for the quantity of ingredients
         public static void ChangeScale(Recipe recipe)
@@ -133,22 +139,20 @@ namespace RecipeManagementApp
             Console.WriteLine("\nQuantities reset to original values successfully.");
         }
 
-
-
-
         //This method displays the full Recipe(Ingredients & Steps) to the User
         // Method to display the full Recipe (Ingredients & Steps) to the User
         public static void DisplayRecipe(string recipeName, Recipe recipe)
         {
             Console.ForegroundColor = ConsoleColor.Magenta;
-            Console.WriteLine($"\n------------------------------\nRECIPE: {recipeName}\n------------------------------");
+            Console.WriteLine($"\n------------------------------\n" +
+                $"{recipeName}\n------------------------------");
 
             // Display Ingredients
             Console.WriteLine("Ingredients:");
             for (int i = 0; i < recipe.Ingredients.Length; i++)
             {
                 var ingredient = recipe.Ingredients[i];
-                Console.WriteLine($"- {ingredient.Quantity} {ingredient.Unit} of {ingredient.Name}");
+                Console.WriteLine($"- {ingredient.Quantity} {ingredient.Unit} of {ingredient.Name} - {ingredient.Calories} Kcal & {ingredient.FoodGroup} Food Group");
             }
 
             // Display steps
