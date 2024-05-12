@@ -12,8 +12,6 @@ namespace RecipeManagementApp
         public double Quantity { get; set; }
         public string Unit { get; set; }
         public double[] tempQty;
-        public double Calories { get; set; } 
-        public string FoodGroup { get; set; }
-
+        
     }
 }
