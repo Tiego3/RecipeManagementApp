@@ -6,7 +6,7 @@ namespace RecipeManagementApp
     internal class Recipe
     {
         public string Name { get; set; }
-        public Ingredients[] Ingredients { get; set; }
+        public List<Ingredients> Ingredients { get; set; }
         public RecipeSteps[] Steps { get; set; }
         public double[] OriginalQuantities { get; set; }
         public double[] OriginalCalories { get; set; }
@@ -17,8 +17,9 @@ namespace RecipeManagementApp
             string recipeName = Console.ReadLine();
 
             int numOfIngredients = GetIntValue("Enter the Number of Ingredients: ");
-            Ingredients[] ingredients = GetIngredients(numOfIngredients);
-            
+            List<Ingredients> ingredients = GetIngredients(numOfIngredients);
+
+
             //Calculate total calories and check if it exceeds the threshold
             CheckIfKcalExceeds(ingredients,300);
 
@@ -34,7 +35,7 @@ namespace RecipeManagementApp
             recipe.OriginalQuantities = new double[numOfIngredients];
             recipe.OriginalCalories = new double[numOfIngredients];
             // Store original quantities & calories
-            for (int i = 0; i < ingredients.Length; i++)
+            for (int i = 0; i < ingredients.Count; i++)
             {
                 recipe.OriginalQuantities[i] = ingredients[i].Quantity;
                 recipe.OriginalCalories[i] = ingredients[i].Calories;
@@ -62,9 +63,9 @@ namespace RecipeManagementApp
         //This method gets the details of each the ingredient from user (Name of ingredient, quantity and the unit)
         //Prompting user to enter details for each ingredient,
         //iterating based on the value entered by user
-        public static Ingredients[] GetIngredients(int numIngredients)
+        public static List<Ingredients> GetIngredients(int numIngredients)
         {
-            Ingredients[] ingredients = new Ingredients[numIngredients];
+            List<Ingredients> ingredients = new List<Ingredients>();
 
             for (int i = 0; i < numIngredients; i++)
             {
@@ -84,7 +85,8 @@ namespace RecipeManagementApp
                 Console.Write("Enter the Food Group: ");
                 string foodGroup = Console.ReadLine();
 
-                ingredients[i] = new Ingredients { Name = name, Quantity = quantity, Unit = unit, Calories = calories, FoodGroup = foodGroup };
+                ingredients.Add(new Ingredients { Name = name, Quantity = quantity, Unit = unit, Calories = calories, FoodGroup = foodGroup });
+
             }
             return ingredients;
         }
@@ -125,11 +127,12 @@ namespace RecipeManagementApp
         {
             double scaleFactor;
             scaleFactor = GetValueDouble("Scale: ");
-            for (int i = 0; i < recipe.Ingredients.Length; i++)
+            for (int i = 0; i < recipe.Ingredients.Count; i++)
             {
 
-                recipe.Ingredients[i].Quantity *= scaleFactor;
-                recipe.Ingredients[i].Calories *= scaleFactor;
+                recipe.OriginalQuantities = new double[recipe.Ingredients.Count];
+                recipe.OriginalCalories = new double[recipe.Ingredients.Count];
+
             }
             Console.WriteLine("\nQuantities adjusted successfully.");
         }
@@ -137,7 +140,7 @@ namespace RecipeManagementApp
         //This method Reset the quantity to the original value
         public void ResetToOriginalValues()
         {
-            for (int i = 0; i < Ingredients.Length; i++)
+            for (int i = 0; i < Ingredients.Count; i++)
             {
                 Ingredients[i].Quantity = OriginalQuantities[i];
                 Ingredients[i].Calories = OriginalCalories[i];
@@ -155,7 +158,7 @@ namespace RecipeManagementApp
 
             // Display Ingredients
             Console.WriteLine("Ingredients:");
-            for (int i = 0; i < recipe.Ingredients.Length; i++)
+            for (int i = 0; i < recipe.Ingredients.Count; i++)
             {
                 var ingredient = recipe.Ingredients[i];
                 Console.WriteLine($"- {ingredient.Quantity} {ingredient.Unit} of {ingredient.Name} - {ingredient.Calories} Kcal & {ingredient.FoodGroup} Food Group");
@@ -172,7 +175,7 @@ namespace RecipeManagementApp
         }
 
         // Method to calculate the total calories of all ingredients
-        public static double CalculateTotalCalories(Ingredients[] ingredients)
+        public static double CalculateTotalCalories(List<Ingredients> ingredients)
         {
             double totalCalories = 0;
             foreach (var ingredient in ingredients)
@@ -183,7 +186,7 @@ namespace RecipeManagementApp
         }
 
         // Method to check if the total calories exceed
-        public static void CheckIfKcalExceeds(Ingredients[] ingredients, double threshold)
+        public static void CheckIfKcalExceeds(List<Ingredients> ingredients, double threshold)
         {
             double totalCalories = CalculateTotalCalories(ingredients);
             if (totalCalories > threshold)
@@ -191,7 +194,6 @@ namespace RecipeManagementApp
                 Console.WriteLine($"\nWarning: Total calories for this recipe is ({totalCalories}) Kcal exceeding {threshold}!");
             }
         }
-
 
     }
 }
