@@ -9,7 +9,7 @@ namespace RecipeManagementApp
         public Ingredients[] Ingredients { get; set; }
         public RecipeSteps[] Steps { get; set; }
         public double[] OriginalQuantities { get; set; }
-
+        public double[] OriginalCalories { get; set; }
         //Method to add full recipe
         public static Recipe AddNewRecipe()
         {
@@ -32,11 +32,12 @@ namespace RecipeManagementApp
                 Steps = steps 
             };
             recipe.OriginalQuantities = new double[numOfIngredients];
-            
-            // Store original quantities
+            recipe.OriginalCalories = new double[numOfIngredients];
+            // Store original quantities & calories
             for (int i = 0; i < ingredients.Length; i++)
             {
                 recipe.OriginalQuantities[i] = ingredients[i].Quantity;
+                recipe.OriginalCalories[i] = ingredients[i].Calories;
             }
 
             return recipe;
@@ -119,7 +120,7 @@ namespace RecipeManagementApp
             return value;
         }        
 
-        //This method changes the Scale Factor for the quantity of ingredients
+        //This method changes the Scale Factor for the quantity & calories of ingredients
         public static void ChangeScale(Recipe recipe)
         {
             double scaleFactor;
@@ -128,6 +129,7 @@ namespace RecipeManagementApp
             {
 
                 recipe.Ingredients[i].Quantity *= scaleFactor;
+                recipe.Ingredients[i].Calories *= scaleFactor;
             }
             Console.WriteLine("\nQuantities adjusted successfully.");
         }
@@ -138,6 +140,7 @@ namespace RecipeManagementApp
             for (int i = 0; i < Ingredients.Length; i++)
             {
                 Ingredients[i].Quantity = OriginalQuantities[i];
+                Ingredients[i].Calories = OriginalCalories[i];
             }
             Console.WriteLine("\nQuantities reset to original values successfully.");
         }
@@ -157,6 +160,8 @@ namespace RecipeManagementApp
                 var ingredient = recipe.Ingredients[i];
                 Console.WriteLine($"- {ingredient.Quantity} {ingredient.Unit} of {ingredient.Name} - {ingredient.Calories} Kcal & {ingredient.FoodGroup} Food Group");
             }
+
+            CheckIfKcalExceeds(recipe.Ingredients, 300);
 
             // Display steps
             Console.WriteLine("\nSteps:");
