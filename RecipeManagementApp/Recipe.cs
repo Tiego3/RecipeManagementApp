@@ -18,6 +18,9 @@ namespace RecipeManagementApp
 
             int numOfIngredients = GetIntValue("Enter the Number of Ingredients: ");
             Ingredients[] ingredients = GetIngredients(numOfIngredients);
+            
+            //Calculate total calories and check if it exceeds the threshold
+            CheckIfKcalExceeds(ingredients,300);
 
             int numSteps = GetIntValue("Enter the Number of Steps: ");
             RecipeSteps[] steps = GetSteps(numSteps);
@@ -29,7 +32,7 @@ namespace RecipeManagementApp
                 Steps = steps 
             };
             recipe.OriginalQuantities = new double[numOfIngredients];
-
+            
             // Store original quantities
             for (int i = 0; i < ingredients.Length; i++)
             {
@@ -74,8 +77,8 @@ namespace RecipeManagementApp
                 Console.Write("Unit: ");
                 string unit = Console.ReadLine();
 
-                int calories;
-                calories = GetIntValue("Calories: ");
+                double calories;
+                calories = GetValueDouble("Calories: ");
 
                 Console.Write("Enter the Food Group: ");
                 string foodGroup = Console.ReadLine();
@@ -163,6 +166,27 @@ namespace RecipeManagementApp
             }
         }
 
-       
+        // Method to calculate the total calories of all ingredients
+        public static double CalculateTotalCalories(Ingredients[] ingredients)
+        {
+            double totalCalories = 0;
+            foreach (var ingredient in ingredients)
+            {
+                totalCalories += ingredient.Calories;
+            }
+            return totalCalories;
+        }
+
+        // Method to check if the total calories exceed
+        public static void CheckIfKcalExceeds(Ingredients[] ingredients, double threshold)
+        {
+            double totalCalories = CalculateTotalCalories(ingredients);
+            if (totalCalories > threshold)
+            {
+                Console.WriteLine($"\nWarning: Total calories for this recipe is ({totalCalories}) Kcal exceeding {threshold}!");
+            }
+        }
+
+
     }
 }
