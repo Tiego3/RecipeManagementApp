@@ -1,28 +1,60 @@
 # Recipe Manangment App
 An Application to manage and organise recipes
 
+## Table of Contents
+
+- [Prerequisites](#prerequisites)
+- [Running-Application](#running-application)
+- [Usage](#usage)
+- [Updated-Features](#updated-features)
+- [Github-Link](#github-Link)
+
 # Prerequisites
 Visual Studio 2022
 
-# Running Application
-Unzip Folder,
-Open Project Folder,open another folder with the same name as Project Folder, 
-Double click RecipeManangmentApp.cs or right click, then open with Visual Studio 2022
-Build and run the application.
+# Running-Application
+1. Unzip Folder
+From Project Folder
+2. Open Project Folder
+3. Open another folder with the same name as Project Folder
+4. Double click RecipeManangmentApp.cs or right click, then open with Visual Studio 2022
+5. Click the green arrow button to build and run the application.
 
-## Usage
+From  visual studio
+1. Open visual studio
+2. Click on Open a project or Solution
+3. Navigate to the folder RecipeManangmentApp.cs is located, select it, and click open
+5. Click the green arrow button to build and run the application.
+
+# Usage
+Follow the on-screen instructions to use the application
 
 1. Add Recipe.
-  a. The number of ingredients.
-  b. For each ingredient: the name, quantity, and unit of measurement.
-  c. The number of steps.
-  d. For each step: a description of what the user should do.
+  a. The name of the Recipe
+  b. The number of ingredients.
+  c. For each ingredient: the name, quantity, and unit of measurement, calories and food group
+  d. The number of steps.
+  e. For each step: a description of what the user should do.
 
 2. Displays the full recipe, including the ingredients and steps.
+  -  Select from a list of recipes(ordered in alphabetic order of name)
 3. The user is able to request that the recipe is scaled by a factor.
-  Scale value.
+-  Select from a list of recipes (ordered in alphabetic order of name)
+  Scale value.  
 4. Reset to the original values.
-5. Clear data.
+-  Select from a list of recipes (ordered in alphabetic order of name)
+5. Exit App.
 
-# Github Link
+# Updated-Features
+- Add unlimited recipes
+- Enter a name for each recipe
+- Display a list of all recipes in alphabetical order by name
+- Choose a recipe to display from the list
+- Enter additional details for each ingredient: calories and food group
+- Calculate and display the total calories of all ingredients in a recipe
+- Notify the user when the total calories of a recipe exceed 300
+- Unit Test for calculating the the total calories
+
+
+# Github-Link
 https://github.com/Tiego3/RecipeManagementApp
