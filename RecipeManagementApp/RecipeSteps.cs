@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace RecipeManagementApp
 {
-    internal class RecipeSteps
+    public class RecipeSteps
     {
         public string StepsDescription { get; set; }
     }

@@ -5,7 +5,7 @@ using static System.Formats.Asn1.AsnWriter;
 namespace RecipeManagementApp
 {
     
-    internal class Recipe
+    public class Recipe
     {
 
         public string Name { get; set; }
@@ -48,7 +48,7 @@ namespace RecipeManagementApp
                 recipe.OriginalQuantities.Add(ingredient.Quantity);
                 recipe.OriginalCalories.Add(ingredient.Calories);
             }
-
+            
             return recipe;
         }
 
@@ -188,7 +188,11 @@ namespace RecipeManagementApp
             double totalCalories = 0;
             foreach (var ingredient in ingredients)
             {
-                totalCalories += ingredient.Calories;
+                if (ingredient.Calories > 0)
+                    totalCalories += ingredient.Calories;
+                else
+                    throw new Exception();
+               
             }
             Console.WriteLine($"\nTotal calories for this recipe is a {totalCalories} Kcal");
             return totalCalories;
