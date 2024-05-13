@@ -48,7 +48,7 @@ namespace RecipeManagementApp
                 recipe.OriginalQuantities.Add(ingredient.Quantity);
                 recipe.OriginalCalories.Add(ingredient.Calories);
             }
-            
+            DisplayRecipe(recipeName,recipe);
             return recipe;
         }
 
@@ -143,17 +143,19 @@ namespace RecipeManagementApp
 
             }
             Console.WriteLine("\nQuantities adjusted successfully.");
+            DisplayRecipe(recipe.Name, recipe);
         }
 
         //This method Reset the quantity to the original value
-        public void ResetToOriginalValues()
+        public static void ResetToOriginalValues(Recipe recipe)
         {
-            for (int i = 0; i < Ingredients.Count; i++)
+            for (int i = 0; i < recipe.Ingredients.Count; i++)
             {
-                Ingredients[i].Quantity = OriginalQuantities[i];
-                Ingredients[i].Calories = OriginalCalories[i];
+                recipe.Ingredients[i].Quantity = recipe.OriginalQuantities[i];
+                recipe.Ingredients[i].Calories = recipe.OriginalCalories[i];
             }
             Console.WriteLine("\nQuantities reset to original values successfully.");
+           DisplayRecipe(recipe.Name, recipe);
         }
 
         //This method displays the full Recipe(Ingredients & Steps) to the User
@@ -180,6 +182,7 @@ namespace RecipeManagementApp
             {
                 Console.WriteLine($"{i + 1}. {recipe.Steps[i].StepsDescription}");
             }
+
         }
 
         // Method to calculate the total calories of all ingredients

@@ -95,7 +95,7 @@ try
                             Console.WriteLine("Invalid input. Please enter a valid recipe number.");
                         }
                     } while (recipeIndex < 1 || recipeIndex > sortedRecipes.Count);
-                    sortedRecipes[recipeIndex - 1].ResetToOriginalValues();
+                    Recipe.ResetToOriginalValues(sortedRecipes[recipeIndex - 1]);
                 }
                 else
                 {
