@@ -14,13 +14,13 @@ Visual Studio 2022
 
 # Running-Application
 1. Unzip Folder
-From Project Folder
+-From Project Folder
 2. Open Project Folder
 3. Open another folder with the same name as Project Folder
 4. Double click RecipeManangmentApp.cs or right click, then open with Visual Studio 2022
 5. Click the green arrow button to build and run the application.
 
-From  visual studio
+-From  visual studio
 1. Open visual studio
 2. Click on Open a project or Solution
 3. Navigate to the folder RecipeManangmentApp.cs is located, select it, and click open
