@@ -3,8 +3,11 @@
  * An Application to manage and organise recipes*/
 
 using RecipeManagementApp;
+using System.Collections.Generic;
 
 List<Recipe> recipes = new List<Recipe>();
+int indexVal = 0;
+
 Console.WriteLine("------------------------------\nRECIPE MANAGEMENT!\n------------------------------");
 
 try
@@ -19,10 +22,8 @@ try
         int choice;
         do
         {
-            if (!int.TryParse(Console.ReadLine(), out choice) || choice <= 0)
-            {
-                Console.WriteLine("Invalid input. Please enter a valid positive number: ");
-            }
+            choice = Recipe.GetIntValue("\nEnter your choice: ");
+            
         } while (choice <= 0);
 
         switch (choice)
@@ -33,21 +34,8 @@ try
             case 2:
                 if (recipes.Count > 0)
                 {
-                    Console.WriteLine("Select a recipe to display:");
-                    var sortedRecipes = recipes.OrderBy(r => r.Name).ToList();
-                    for (int i = 0; i < sortedRecipes.Count; i++)
-                    {
-                        Console.WriteLine($"{i + 1}. {sortedRecipes[i].Name}");
-                    }
-                    int recipeIndex;
-                    do
-                    {
-                        if (!int.TryParse(Console.ReadLine(), out recipeIndex) || recipeIndex < 1 || recipeIndex > sortedRecipes.Count)
-                        {
-                            Console.WriteLine("Invalid input. Please enter a valid recipe number.");
-                        }
-                    } while (recipeIndex < 1 || recipeIndex > sortedRecipes.Count);
-                    Recipe.DisplayRecipe(sortedRecipes[recipeIndex - 1].Name, sortedRecipes[recipeIndex - 1]);
+                    indexVal = GetRecipeIndex("Select a recipe to display:", recipes);
+                    Recipe.DisplayRecipe(recipes[indexVal].Name, recipes[indexVal]);
                 }
                 else
                 {
@@ -57,21 +45,8 @@ try
             case 3:
                 if (recipes.Count > 0)
                 {
-                    Console.WriteLine("Select a recipe to change scale:");
-                    var sortedRecipes = recipes.OrderBy(r => r.Name).ToList();
-                    for (int i = 0; i < sortedRecipes.Count; i++)
-                    {
-                        Console.WriteLine($"{i + 1}. {sortedRecipes[i].Name}");
-                    }
-                    int recipeIndex;
-                    do
-                    {
-                        if (!int.TryParse(Console.ReadLine(), out recipeIndex) || recipeIndex < 1 || recipeIndex > sortedRecipes.Count)
-                        {
-                            Console.WriteLine("Invalid input. Please enter a valid recipe number.");
-                        }
-                    } while (recipeIndex < 1 || recipeIndex > sortedRecipes.Count);
-                    Recipe.ChangeScale(sortedRecipes[recipeIndex - 1]);
+                    indexVal = GetRecipeIndex("Select a recipe to change scale:", recipes);
+                    Recipe.ChangeScale(recipes[indexVal]);                
                 }
                 else
                 {
@@ -81,21 +56,8 @@ try
             case 4:
                 if (recipes.Count > 0)
                 {
-                    Console.WriteLine("Select a recipe to reset to original values:");
-                    var sortedRecipes = recipes.OrderBy(r => r.Name).ToList();
-                    for (int i = 0; i < sortedRecipes.Count; i++)
-                    {
-                        Console.WriteLine($"{i + 1}. {sortedRecipes[i].Name}");
-                    }
-                    int recipeIndex;
-                    do
-                    {
-                        if (!int.TryParse(Console.ReadLine(), out recipeIndex) || recipeIndex < 1 || recipeIndex > sortedRecipes.Count)
-                        {
-                            Console.WriteLine("Invalid input. Please enter a valid recipe number.");
-                        }
-                    } while (recipeIndex < 1 || recipeIndex > sortedRecipes.Count);
-                    Recipe.ResetToOriginalValues(sortedRecipes[recipeIndex - 1]);
+                    indexVal = GetRecipeIndex("Select a recipe to reset to original values:", recipes);
+                    Recipe.ResetToOriginalValues(recipes[indexVal]);
                 }
                 else
                 {
@@ -110,6 +72,7 @@ try
                 Console.WriteLine("Invalid choice. Please choose again.");
                 break;
         }
+        indexVal = 0;
         Console.WriteLine("\nPress any key to continue...\n------------------------------");
         Console.ReadKey(true);
     }
@@ -131,6 +94,27 @@ static void DisplayMenu()
         "\n4. Reset to Original Value" +
         "\n5. Exit");
 
-    Console.Write("\nEnter your choice: ");
+   // Console.Write("\nEnter your choice: ");
 }
 
+static int GetRecipeIndex(string prompt, List<Recipe> recipes)
+{
+    int recipeIndex;
+    do
+    {
+        Console.WriteLine(prompt);
+        //Ordering Recipes in alphabetic order 
+        var sortedRecipes = recipes.OrderBy(r => r.Name).ToList();
+        for (int i = 0; i < sortedRecipes.Count; i++)
+        {
+            Console.WriteLine($"{i + 1}. {sortedRecipes[i].Name}");
+        }
+        Console.Write(">> ");
+        if (!int.TryParse(Console.ReadLine(), out recipeIndex) || recipeIndex < 1 || recipeIndex > sortedRecipes.Count)
+        {
+            Console.WriteLine("Invalid input. Please enter a valid recipe number.");
+        }
+    } while (recipeIndex < 1 || recipeIndex > recipes.Count);
+
+    return recipeIndex - 1;
+}

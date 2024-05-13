@@ -134,7 +134,7 @@ namespace RecipeManagementApp
         public static void ChangeScale(Recipe recipe)
         {
             double scaleFactor;
-            scaleFactor = GetValueDouble("Scale: ");
+            scaleFactor = GetValueDouble("\nScale: ");
             for (int i = 0; i < recipe.Ingredients.Count; i++)
             {
 
