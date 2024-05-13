@@ -13,13 +13,13 @@ An Application to manage and organise recipes
 Visual Studio 2022
 
 # Running-Application
-1. Unzip Folder
+Unzip Project Folder
 -From Project Folder
-2. Open Project Folder
-3. Open another folder with the same name as Project Folder
-4. Double click RecipeManangmentApp.cs or right click, then open with Visual Studio 2022
-5. Click the green arrow button to build and run the application.
-
+1. Open Project Folder
+2. Open another folder with the same name as Project Folder
+3. Double click RecipeManangmentApp.cs or right click, then open with Visual Studio 2022
+4. Click the green arrow button to build and run the application.
+   
 -From  visual studio
 1. Open visual studio
 2. Click on Open a project or Solution
