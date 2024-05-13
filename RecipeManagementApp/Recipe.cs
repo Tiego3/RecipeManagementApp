@@ -4,13 +4,18 @@ using static System.Formats.Asn1.AsnWriter;
 
 namespace RecipeManagementApp
 {
+    
     internal class Recipe
     {
+
         public string Name { get; set; }
         public List<Ingredients> Ingredients { get; set; }
         public List<RecipeSteps> Steps { get; set; }
         public List<double> OriginalQuantities { get; set; }
         public List<double> OriginalCalories { get; set; }
+        //Defining Delegate
+        public delegate void RecipeExceedsCaloriesHandler(Recipe recipe);
+
         //Method to add full recipe
         public static Recipe AddNewRecipe()
         {
@@ -22,22 +27,22 @@ namespace RecipeManagementApp
 
 
             //Calculate total calories and check if it exceeds the threshold
-            CheckIfKcalExceeds(ingredients,300);
+            CheckIfKcalExceeds(ingredients, 300, NotifyUserExceedsCalories);
 
             int numSteps = GetIntValue("Enter the Number of Steps: ");
             List<RecipeSteps> steps = GetSteps(numSteps);
 
-            var recipe = new Recipe 
-            { 
+            var recipe = new Recipe
+            {
                 Name = recipeName,
                 Ingredients = ingredients,
-                Steps = steps 
+                Steps = steps
             };
 
             // Store original quantities & calories
             recipe.OriginalQuantities = new List<double>();
             recipe.OriginalCalories = new List<double>();
-            
+
             foreach (var ingredient in ingredients)
             {
                 recipe.OriginalQuantities.Add(ingredient.Quantity);
@@ -103,7 +108,7 @@ namespace RecipeManagementApp
             for (int i = 0; i < numSteps; i++)
             {
                 Console.WriteLine($"\nStep #{i + 1}:");
-                string description = Console.ReadLine();                
+                string description = Console.ReadLine();
                 steps.Add(new RecipeSteps { StepsDescription = description });
             }
             return steps;
@@ -123,7 +128,7 @@ namespace RecipeManagementApp
                 }
             } while (value <= 0);
             return value;
-        }        
+        }
 
         //This method changes the Scale Factor for the quantity & calories of ingredients
         public static void ChangeScale(Recipe recipe)
@@ -167,7 +172,7 @@ namespace RecipeManagementApp
                 Console.WriteLine($"- {ingredient.Quantity} {ingredient.Unit} of {ingredient.Name} - {ingredient.Calories} Kcal & of {ingredient.FoodGroup} food group");
             }
 
-            CheckIfKcalExceeds(recipe.Ingredients, 300);
+            CheckIfKcalExceeds(recipe.Ingredients, 300, NotifyUserExceedsCalories);
 
             // Display steps
             Console.WriteLine("\nSteps:");
@@ -185,18 +190,26 @@ namespace RecipeManagementApp
             {
                 totalCalories += ingredient.Calories;
             }
+            Console.WriteLine($"\nTotal calories for this recipe is a {totalCalories} Kcal");
             return totalCalories;
         }
 
         // Method to check if the total calories exceed
-        public static void CheckIfKcalExceeds(List<Ingredients> ingredients, double threshold)
+        public static void CheckIfKcalExceeds(List<Ingredients> ingredients, double threshold, RecipeExceedsCaloriesHandler handler)
         {
             double totalCalories = CalculateTotalCalories(ingredients);
             if (totalCalories > threshold)
             {
-                Console.WriteLine($"\nWarning: Total calories for this recipe is ({totalCalories}) Kcal exceeding {threshold}!");
+                // Console.WriteLine($"\nTotal calories for this recipe is ({totalCalories})");
+                // Invoking delegate
+                handler?.Invoke(null); 
             }
+
         }
 
+        public static void NotifyUserExceedsCalories(Recipe recipe)
+        {
+            Console.WriteLine("!!!This recipe exceeds 300 Kcal!");
+        }
     }
 }

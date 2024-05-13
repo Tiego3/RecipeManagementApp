@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\RC_student_2024\\source\\repos\\Tiego3\\RecipeManagementApp\\RecipeManagementApp\\RecipeManagementApp.csproj": {}
+    "C:\\Users\\RC_student_2024\\source\\repos\\Tiego3\\RecipeManagementApp\\Tests\\Tests.csproj": {}
   },
   "projects": {
-    "C:\\Users\\RC_student_2024\\source\\repos\\Tiego3\\RecipeManagementApp\\RecipeManagementApp\\RecipeManagementApp.csproj": {
+    "C:\\Users\\RC_student_2024\\source\\repos\\Tiego3\\RecipeManagementApp\\Tests\\Tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\RC_student_2024\\source\\repos\\Tiego3\\RecipeManagementApp\\RecipeManagementApp\\RecipeManagementApp.csproj",
-        "projectName": "RecipeManagementApp",
-        "projectPath": "C:\\Users\\RC_student_2024\\source\\repos\\Tiego3\\RecipeManagementApp\\RecipeManagementApp\\RecipeManagementApp.csproj",
+        "projectUniqueName": "C:\\Users\\RC_student_2024\\source\\repos\\Tiego3\\RecipeManagementApp\\Tests\\Tests.csproj",
+        "projectName": "Tests",
+        "projectPath": "C:\\Users\\RC_student_2024\\source\\repos\\Tiego3\\RecipeManagementApp\\Tests\\Tests.csproj",
         "packagesPath": "C:\\Users\\RC_student_2024\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\RC_student_2024\\source\\repos\\Tiego3\\RecipeManagementApp\\RecipeManagementApp\\obj\\",
+        "outputPath": "C:\\Users\\RC_student_2024\\source\\repos\\Tiego3\\RecipeManagementApp\\Tests\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -49,6 +49,28 @@
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[17.8.0, )"
+            },
+            "NUnit": {
+              "target": "Package",
+              "version": "[3.14.0, )"
+            },
+            "NUnit.Analyzers": {
+              "target": "Package",
+              "version": "[3.9.0, )"
+            },
+            "NUnit3TestAdapter": {
+              "target": "Package",
+              "version": "[4.5.0, )"
+            },
+            "coverlet.collector": {
+              "target": "Package",
+              "version": "[6.0.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
